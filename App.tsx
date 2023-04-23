@@ -1,11 +1,13 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
 import DemoOutput from './src/components/Demo/DemoOutput';
 import ButtonComponent from './src/components/UI/ButtonComponent';
+import DemoList from './src/components/Demo/DemoList';
 
 const App = () => {
   console.log('RUNING APP');
   const [showPharagrap, setShowPharagrap] = useState(false);
+  const [title, setTitle] = useState('new Tile');
   // const toggleShowPharagrapHandler = () => {
   //   setShowPharagrap(prev => !prev);
   // };
@@ -18,6 +20,13 @@ const App = () => {
   const toggleShowPharagrapHandler = useCallback(() => {
     setShowPharagrap(prev => !prev);
   }, []);
+  const toggleChangeTitleHandler = useCallback(() => {
+    setTitle(() => 'title change');
+  }, []);
+  const dataMemo = useMemo(() => {
+    console.log('data memo app');
+    return [1, 2, 3, 4, 5, 6, 7, 3, 2, 4, 7, 0];
+  }, []);
   return (
     <View>
       <SafeAreaView />
@@ -26,8 +35,13 @@ const App = () => {
         title="Toggle Pharagrap"
         onPress={toggleShowPharagrapHandler}
       />
+      <ButtonComponent
+        title="Toggle Title"
+        onPress={toggleChangeTitleHandler}
+      />
       {showPharagrap && <Text>show pharagrap</Text>}
       <DemoOutput isActive={true} />
+      <DemoList data={dataMemo} title={title} />
     </View>
   );
 };
